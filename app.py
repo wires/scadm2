@@ -35,15 +35,16 @@ def download(target, track):
 	fn = lambda ext: "%s/%s-%d.%s" % (target, user, i, ext)
 	audio = fn('mp3')
 	meta = fn('meta.json')
-	print "downloading %s" % audio
-	with open(meta, 'w+') as f:
-		json.dump(track, f)
 
 	if not os.path.exists(audio):
+		print "downloading %s" % audio
+		with open(meta, 'w+') as f:
+			json.dump(track, f)
+
 		with open(audio, 'wb+') as f:
 			f.write(client.stream(i).read())
 	else:
-		print "file already exists, skipping"
+		print "file already exists, skipping %s" % audio
 
 
 # program starts here:
@@ -57,7 +58,15 @@ def pending(g):
 t = "artwork_url,bpm,comment_count,genre,id,playback_count,tag_list,title"
 t = t.split(',')
 
+from requests.exceptions import HTTPError
+
 for track in pending(group):
-	pp(select(track,t))
-	download("pending", track)
+	try:
+		pp(select(track,t))
+		download("pending", track)
+	except HTTPError,e:
+		print e
+		print "skipping track %s" % track['title']
+		continue
+
 
