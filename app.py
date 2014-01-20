@@ -11,13 +11,14 @@ try:
 	auth = sc.authload()
 
 	# connect client
-	client = sc.SC(auth, pbar=True)
+	client = sc.SC(auth)
 
 except sc.Abort, a:
 	print a.msg()
 	sys.exit(1)
 
 def ppr(s):
+	"""pretty result of executing the soundcloud API request s"""
 	pp(client.r(s))
 
 def select(D,keys):

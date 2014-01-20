@@ -4,8 +4,6 @@ import soundcloud
 
 import requests
 
-from progressbar import ProgressBar, AnimatedMarker
-
 class Abort(Exception):
 	def msg(self):
 		return self.args[0]
@@ -32,16 +30,8 @@ def authload(authfile = 'auth.py'):
 	import auth
 	return auth
 
-class DummyProgressBar:
-	def __call__(_,v):
-		return v
-	def finish(_):
-		pass
-
 class SC:
-	def __init__(s,auth,pbar=True):
-		# yes or no progress bar?
-		s.pbar = pbar
+	def __init__(s,auth):
 		s.client = soundcloud.Client(
 			client_id=auth.CLIENT_ID,
 			client_secret=auth.CLIENT_SECRET,
@@ -51,15 +41,6 @@ class SC:
 	
 		if not s.client:
 			Abort("failed to login to soundcloud")
-
-	def _pbar(self, s):
-		# return dummy (no progress bar)
-		if not self.pbar:
-			return DummyProgressBar()
-
-		# or construct real progressbar
-		w = [s, AnimatedMarker(markers="|/-\|")]
-		return ProgressBar(widgets=w)
 
 	def r(self, s, **kwargs):
 		obj = self.client.get(s, **kwargs)
@@ -71,12 +52,6 @@ class SC:
 		# list of resources
 		return [r.fields() for r in obj]
 
-	def test(self):
-		pbar = self._pbar('sleeping: ')
-		import time
-		for i in pbar(range(10)):
-			time.sleep(0.1)
-	
 	# page over list of resources
 	# TODO use itertools!! do this lazy
 	def rs(self, s, maximum=10**5, k=32):
