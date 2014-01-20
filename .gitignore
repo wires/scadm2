@@ -1,3 +1,4 @@
+venv/
 pending/
 auth.py*
 *.pyc
