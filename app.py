@@ -54,7 +54,7 @@ group = client.r('/me/groups')[0]
 pp(select(group,["name","id"]))
 
 def pending(g):
-	return client.rs('/groups/%d/pending_tracks' % g['id'],  maximum=300)
+	return client.rs('/groups/%d/pending_tracks' % g['id'])#,  maximum=300)
 
 t = "artwork_url,bpm,comment_count,genre,id,playback_count,tag_list,title"
 t = t.split(',')

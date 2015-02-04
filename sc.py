@@ -54,7 +54,8 @@ class SC:
 
 	# page over list of resources
 	# TODO use itertools!! do this lazy
-	def rs(self, s, maximum=10**5, k=32):
+	def rs(self, s, maximum=10**5, k=200):
+		import time, random
 		def log(wut):
 			import sys
 			sys.stdout.write('\r%s' % wut)
@@ -62,7 +63,11 @@ class SC:
 
 		rs = []
 		for i in range(0,maximum,k):
-			rs += self.r(s,limit=k,offset=i)
+			r = self.r(s,limit=k,offset=i)
+			if(len(r)==0):
+				break
+			rs += r
+			time.sleep(random.random() + 0.7);
 			log("loading %s: %d" % (s, len(rs)))
 			if len(rs) % k:
 				break
