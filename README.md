@@ -1,6 +1,17 @@
 # About
 
-Tool to help with (offline) soundcloud group administration.
+Tool to pull down aphex stuff
+
+File `afex` has a list of users, this creates folders for each user and
+then downloads (save stream) the tracks + the comments
+
+	cat afex | xargs -n1 -I_ mkdir -p users/_
+	cat afex | xargs -n1 -I_ python rip-user.py _
+
+### TODO
+
+- artwork
+- high quality downloads
 
 # Features
 
