@@ -2,6 +2,8 @@
 
 Tool to help with (offline) soundcloud group administration.
 
+[![asciicast](https://asciinema.org/a/2444.png)](https://asciinema.org/a/2444)
+
 # Features
 
 - Download all pending tracks + metadata
